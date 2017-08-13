@@ -42,4 +42,4 @@ twoway (line clarendon100 time) (scatter clarendon100 time, mcolor(black)) ///
 	ytitle("Percentage of people in Who's Who" "that attended a particular school") 
 ```
 
-![Figure 1](./whoswho/schools_over_time_fig1.png)
+![Figure 1](./schools_over_time_fig1.png)
