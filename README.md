@@ -129,3 +129,19 @@ twoway (area max_clar year if year>1879 & year<1891, fcolor(gs14) fintensity(*.6
 
 
 ![Figure3](./clarendon_break.png)
+
+
+In the final stage of the analysis we estimated a simple time series regression model to explore whether four proxies for educational reform were correlated with the proportion of people in Who's Who attending a particular school given they were born in a particular cohort. The four proxies are:
+* The proportion of government spending on education (% GDP) when any given cohort were aged 10
+* The proportion of the adult population without any formal schooling when any given cohort were aged 35
+* The number of children enrolled in school when any given cohort were aged 10 (as a proportion of children aged 0-14)
+* The number of people attending university when any given cohort were aged 20 (as a proportion of the population aged 15-24).
+
+```
+newey clarendon100 Leduc_GDPpc_at10 empire_size_at35_new banknote_gdp defence_GDPpc_at20  finan_surp_GDPpc_at35 , lag(2) 
+newey clarendon100 Lno_school_at35 empire_size_at35_new banknote_gdp defence_GDPpc_at20  finan_surp_GDPpc_at35 , lag(2) 
+newey clarendon100 Lstudents_pop_014 empire_size_at35_new banknote_gdp defence_GDPpc_at20 finan_surp_GDPpc_at35 , lag(2)
+newey clarendon100 Luni_pop_1524 empire_size_at35_new banknote_gdp defence_GDPpc_at20 finan_surp_GDPpc_at35 , lag(2)
+```
+
+Each model was estimated using Newey-West standard errors were we assuming two autocorrelated lags.
