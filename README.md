@@ -1,4 +1,5 @@
 # whoswho
+
 Replication materials for 'The decline and persistence of the Old Boy: Private Schools and Elite Recruitment 1897-2016'.
 
 The raw data used in this analysis are proprietary and so cannot be released. Instead, we share the code used to conduct the analysis so that it can be inspected. 
@@ -44,7 +45,7 @@ twoway (line clarendon100 time) (scatter clarendon100 time, mcolor(black)) ///
 
 
 
-Figure 1: Who’s Who entrants by school type, 1830-1969 cohorts
+**Figure 1: Who’s Who entrants by school type, 1830-1969 cohorts**
 
 ![Figure1](./schools_over_time_fig1.png)
 
@@ -79,7 +80,52 @@ twoway (line clarendon100 time) (scatter clarendon100 time, mcolor(black)) ///
 
 ```
 
-Figure 4: The persistence of old boys in Who’s Who, 2001-2016 
+**Figure 4: The persistence of old boys in Who’s Who, 2001-2016** 
 
 
 ![Figure2](./schools_recent_fig2.png)
+
+## Structural break tests in R
+
+These time series plots allow us to narratively explore changes in elite recruitment. To formally assess whether there are changes in the composition of Who’s Who between cohorts, we estimate structural break models for each school type (where a structural break represents a durable shift in the data generating process of a time series). We use annual data (140 observations) with a 3-year moving average to estimate these models. 
+
+We use the [strucchange](https://cran.r-project.org/web/packages/strucchange/strucchange.pdf) package in R to conduct the analysis. 
+
+```
+clar <- as.ts(d1$clarendon_ma, frequency = 1, start =1831)
+is.ts(clar)
+clar <- ts(clar, frequency = 1, start =1830)
+plot(clar)
+bp.clar <- breakpoints(clar ~ 1)
+summary(bp.clar)
+plot(bp.clar)
+breakpoints(bp.clar)
+```
+
+We repeat the analysis for each school type and once we have identified the breaks we redraw the graphs in STATA. Below is graph for the Clarendon schools only. The process is the same for each school type. 
+
+```
+gen max_clar = 70	
+twoway (area max_clar year if year>1879 & year<1891, fcolor(gs14) fintensity(*.6) lcolor(white))   ///
+	(area max_clar year if year>1914 & year<1926, fcolor(gs14) fintensity(*.6) lcolor(white))   ///
+	(area max_clar year if year>1934 & year<1946, fcolor(gs14) fintensity(*.6) lcolor(white))   ///
+	(tsline clarendon_ma, lpatt(solid) lcolor(black))(pci 0 1888 70 1888, lcolor(cranberry) lpatt(longdash))	///
+	(pci 0 1849 70 1849, lcolor(cranberry) lpatt(longdash)) (pci 0 1921 70 1921, lcolor(cranberry) lpatt(longdash)) ///
+	(pci 0 1941 70 1941, lcolor(cranberry) lpatt(longdash)), ylabel(0(10)70) xlabel(1830(5)1970, angle(45)) legend(off) ///
+	xtitle(Year of birth) ytitle("Percentage of people in Who's Who" "that attended a Clarendon school") ///
+	text(45 1882 "Elementary Education Act", orientation(vertical)) ///
+	text(45 1917 "Fisher Act", orientation(vertical)) ///
+	text(45 1937 "Education Act", orientation(vertical)) text(3 1842 "Break 1", color(cranberry)) ///	
+	text(3 1896 "Break 2", color(cranberry)) text(3 1928 "Break 3", color(cranberry)) ///
+	text(3 1948 "Break 4", color(cranberry)) title("Clarendon Schools" " ") 
+
+```
+
+
+
+
+
+**Figure 3: Structural break tests and educational reform (Clarendon schools).**
+
+
+![Figure3](./clarendon_break.png)
