@@ -1,6 +1,8 @@
 # whoswho
 
-Replication materials for 'The decline and persistence of the Old Boy: Private Schools and Elite Recruitment 1897-2016'.
+Replication materials for 'The decline and persistence of the Old Boy: Private Schools and Elite Recruitment 1897-2016'. The paper has been published in the American Sociological Review here: http://journals.sagepub.com/doi/abs/10.1177/0003122417735742?journalCode=asra
+
+But an open access version of the article is available here: https://osf.io/preprints/socarxiv/y54cd/
 
 The raw data used in this analysis are proprietary and so cannot be released. Instead, we share the code used to conduct the analysis so that it can be inspected. 
 
